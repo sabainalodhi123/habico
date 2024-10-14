@@ -1,0 +1,56 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu [disabled]="isRouteActive('/login') || isRouteActive('/signup')" style="--background: black;" mode="ios" type="overlay" side="start" menuId="first" menu="main-menu" contentId="main-content">
+      <ion-content >
+        <div class="menu-header"></div>
+        <div class="header" style="color: white;">
+          <img src="assets/logo.png" style="border-radius: 50%; width: 40px; height: 40px; object-fit: cover;    margin-right: 18px;
+          margin-top: 11px;
+      ">
+          <h2 style="flex-grow: 1;">
+            Habico Properties
+          </h2>
+        </div>
+        <ion-list class="menu-items" lines="none">
+          <p>MAIN MENU</p>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/menu'}" button detail="false" (click)="navigate('/menu'); itemClicked = '/menu'">
+            <ion-icon style="color: white;" name="stats-chart" slot="start"></ion-icon>
+            <span class="no-hover-text">CRM Overview</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/tab1'}" button detail="false" (click)="navigate('/tab1'); itemClicked = '/tab1'">
+            <ion-icon style="color: white;" name="flash" slot="start"></ion-icon>
+            <span class="no-hover-text">All Leads</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/tab2'}" button detail="false" (click)="navigate('/tab2'); itemClicked = '/tab2'">
+            <ion-icon style="color: white;" name="people" slot="start"></ion-icon>
+            <span class="no-hover-text">CRM Contacts</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/tab3'}" button detail="false" (click)="navigate('/tab3'); itemClicked = '/tab3'">
+            <ion-icon style="color: white;" name="notifications" slot="start"></ion-icon>
+            <span class="no-hover-text">Assigned Leads</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/wehbook'}" button detail="false" (click)="navigate('/wehbook'); itemClicked = '/wehbook'">
+            <ion-icon style="color: white;" name="logo-web-component" slot="start"></ion-icon>
+            <span class="no-hover-text">Website Leads</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/add-contacts'}" button detail="false" (click)="navigate('/add-contacts'); itemClicked = '/add-contacts'">
+            <ion-icon style="color: white;" name="person-add" slot="start"></ion-icon>
+            <span class="no-hover-text">Add Contacts</span>
+          </ion-item>
+          <ion-item [ngClass]="{'itemClass': itemClicked === '/reminders'}" button detail="false" (click)="navigate('/reminders'); itemClicked = '/reminders'">
+            <ion-icon style="color: white;" name="checkmark-circle" slot="start"></ion-icon>
+            <span class="no-hover-text">To-do</span> 
+          </ion-item>
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <ion-item [ngClass]="{'itemClass': itemClicked === '/reminders'}" button detail="false" (click)="logout()">
+          <ion-icon style="color: white;" name="log-out" slot="start"></ion-icon>
+          <span class="no-hover-text">LogOut</span>
+        </ion-item>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet id="main-content">
+    </ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

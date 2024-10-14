@@ -1,0 +1,59 @@
+<ion-menu contentId="main-content"></ion-menu>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: black;"></ion-menu-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Add Contacts</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input type="text" [(ngModel)]="firstName" name="firstName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input type="text" [(ngModel)]="lastName" name="lastName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Mobile Number</ion-label>
+          <ion-input type="tel" [(ngModel)]="mobileNumber" name="mobileNumber"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Alternate Number</ion-label>
+          <ion-input type="tel" [(ngModel)]="altNumber" name="altNumber"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea [(ngModel)]="description" name="description"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Designation</ion-label>
+          <ion-input type="text" [(ngModel)]="designation" name="designation"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-input type="text" [(ngModel)]="address" name="address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Website</ion-label>
+          <ion-input type="url" [(ngModel)]="website" name="website"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+      <ion-button shape="round" (click)="saveUserInfo()">Submit</ion-button>
+ 
+  </ion-card>
+</ion-content>

@@ -1,0 +1,170 @@
+.scroll-container {
+    overflow-y: auto;
+    max-height: auto; /* adjust the max height to your needs */
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  ion-content {
+    --background-color: #f7f7f7;
+  }
+  
+  ion-list {
+    margin: 0;
+    padding: 0;
+  }
+  
+  ion-card {
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 22px;
+  }
+  p{
+    margin-left: 22px;
+    font-size: x-small;
+    font-weight: 600;
+  }
+  h4{
+    margin-left: 22px;
+    font-size: x-small;
+    font-weight: 600;
+  }
+  ion-card-content {
+  
+  }
+  
+
+  
+  a {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  a:hover {
+    color: #23527c;
+  }
+  
+  
+  
+  .add-note-btn:hover {
+    background-color: #23527c;
+  }
+  
+  .notes {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notes ul {
+    list-style: disc;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notes li {
+    padding: 10px;
+  }
+  ion-fab {
+    ion-fab-button {
+      --background: linear-gradient(90deg ,#2a58a8 0%, #2201A3 100%);
+        ion-icon {
+            font-size: 2rem;
+        }
+    }
+}
+
+ion-card {
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 22px;
+  padding: 22px;
+  background: rgba(100, 181, 196, 0.3);
+}
+
+
+ion-toolbar {
+
+  --color: #ffffff;
+}
+.activity-log-content-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.activity-log-content {
+  margin-left: 20px;
+  margin-top: 0;
+}
+
+.activity-log-item {
+  position: relative;
+  padding-left: 8px;
+  margin-top: 30px;
+}
+
+.activity-log-item::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  height: 100%;
+  border-left: 1px solid blue;
+}
+
+.activity-log-divider-vertical {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  height: 65px;
+  border-left: 1px solid blue;
+}
+
+.activity-log-divider-horizontal {
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.activity-log-container {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.add-circle-icon {
+  position: absolute;
+  bottom: 0;
+  left: 6px;
+  font-size: 31px;
+  color: black;
+}
+.filter-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.round-icon {
+  border-radius: 50%;
+  padding: 7px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+ion-col {
+
+  padding: 5px;
+  border-radius: 5px;
+}
+
+ion-col.selected {
+  background-color: blue;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.search-bar-container {
+  margin-top: 10px;
+}
+ion-searchbar {
+  --height: 40px;
+}

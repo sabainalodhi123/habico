@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CRM</string>
+    <string name="title_activity_main">CRM</string>
+    <string name="package_name">crm.example.app</string>
+    <string name="custom_url_scheme">crm.example.app</string>
+</resources>

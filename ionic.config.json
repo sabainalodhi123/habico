@@ -1,0 +1,14 @@
+{
+  "name": "CRM",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "electron": {
+    "electronJS": "electron.mac.js",
+    "android": {
+      "electronJS": "electron.js"
+    }
+  }
+}

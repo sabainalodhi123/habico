@@ -1,0 +1,42 @@
+<ion-content class="login-page" [fullscreen]="true">
+  <div class="circleBase type2 circle1"></div>
+  <div class="circleBase type1"></div>
+  <div class="circleBase type2 circle2"></div>
+
+  <ion-label class="welcomeMessage">
+    <ion-text color="light">Welcome Back,</ion-text> 
+    <ion-text color="white">
+      <p>Log In!</p>
+    </ion-text>
+  </ion-label> 
+
+
+    <ion-list lines="none" class="ion-margin ion-padding ion-text-center">
+    <ion-item class="ion-margin-vertical">
+      <ion-icon name="mail-outline" slot="end" color="medium"></ion-icon>
+      <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed-outline" 
+      slot="end" 
+     >
+    </ion-icon>
+      <ion-input   type="password" [(ngModel)]="password" name="password" placeholder="Password"></ion-input>
+    </ion-item>
+    <ion-button  (click)="login()" shape="round">Log In</ion-button>
+    <p class="signup">
+      <ion-note>
+        Not a member yet? <ion-text routerLink="/signup" color="primary">Sign Up</ion-text>
+      </ion-note>
+    </p>
+
+    </ion-list>
+ 
+
+<!-- 
+  <form (ngSubmit)="login()">
+
+    <ion-button type="submit" expand="block">Login</ion-button>
+  </form> -->
+
+</ion-content>

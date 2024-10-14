@@ -1,0 +1,66 @@
+.circleBase{
+    border-radius: 50%;
+}
+.type1{
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(90deg ,#2a58a8 0%, #2201A3 100%);
+    box-shadow: 0px 1px 10px rgba(98 , 140 , 255,0.5);
+    top: -50px;
+    left: -50px;
+}
+.type2{
+    width: 100px;
+    height: 100px;
+    background: #000;
+
+}
+@media (min-width: 768px) {
+    ion-item {
+     /* half width on desktop screens */
+      max-width: 70%;
+      margin-left: 15%; /* maximum width to prevent it from getting too wide */
+    }
+  }
+.circle1{
+    margin-left: 180px;
+    margin-top: 50px;
+}
+.circle2{
+    position: absolute;
+    top: 150px;
+    left: -20px;
+
+}
+.welcomeMessage{
+    position: absolute;
+    top: 70px;
+    left: 50px;
+    p{
+        font-weight: bold;
+        font-size: 1.8rem;
+        margin-top: 5px;
+    }
+}
+ion-list{
+    background: transparent;
+    transform: translateY(20vh);
+    ion-item{
+        border: 1px solid var(--ion-color-medium);
+        border-radius: 10px;
+    }
+    ion-button{
+        --background:  blue 100%;
+        width: 30vh;
+        margin: auto;
+        margin-top: 5vh;
+    }
+}
+.backButton{
+    position: absolute;
+    top: 190px;
+    left: 15px;
+    font-size: 2rem;
+  color: white;
+}

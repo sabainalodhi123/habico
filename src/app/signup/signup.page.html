@@ -1,0 +1,55 @@
+<ion-content [fullscreen]="true">
+  <div class="circleBase type2 circle1"></div>
+  <div class="circleBase type1"></div>
+  <div class="circleBase type2 circle2"></div>
+
+  <ion-label class="welcomeMessage">
+    <ion-text color="light">Hello,</ion-text> 
+    <ion-text color="white">
+      <p>Sign Up!</p>
+    </ion-text>
+  </ion-label> 
+
+  <ion-icon 
+    name="arrow-back-outline" 
+    
+    class="backButton"
+    routerLink="/login">
+  </ion-icon>
+
+
+  
+  <form >
+ 
+      
+    <ion-list lines="none" class="ion-margin ion-padding ion-text-center">
+      <ion-item class="ion-margin-vertical">
+        <ion-icon name="person-outline" slot="end" color="medium"></ion-icon>
+        <ion-input type="email" [(ngModel)]="firstName" name="firstName" placeholder="Name"></ion-input>
+      </ion-item>
+      <ion-item class="ion-margin-vertical">
+        <ion-icon name="mail-outline" slot="end" color="medium"></ion-icon>
+        <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Email@gmail.com"></ion-input>
+      </ion-item>
+   
+      <ion-item>
+        <ion-icon name="lock-closed-outline" 
+        slot="end"  color="medium"
+       >
+      </ion-icon>
+        <ion-input   type="password" [(ngModel)]="password" name="password" placeholder="Password"></ion-input>
+      </ion-item>
+  
+      <ion-button [disabled]="!(firstName && email && password)" (click)="signup()" shape="round">Sign Up</ion-button>
+      <p class="signup">
+        <ion-note>
+          By signing up, you agree to our Terms of Service and Policy
+        </ion-note>
+      </p>
+  
+      </ion-list>
+   
+
+      
+  </form>
+</ion-content>

@@ -1,0 +1,104 @@
+p{
+    margin-left: 17px;
+    font-size: x-large;
+    margin-top: -9px;
+}
+h4{
+    margin-top: -25px;
+    margin-left: 18px;
+    font-size: 0.8rem;
+}
+ion-card {
+    border-radius: 20px;
+  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 22px;
+    ion-card-header{
+        color: black;
+       
+    }
+    ion-card-content{
+        color: black;
+      
+    }
+  }
+  .slider {
+    overflow-x: auto;
+    white-space: nowrap;
+    
+  }
+  .scroll-x::-webkit-scrollbar{
+    width: 0;
+  }
+  @media (min-width: 768px) {
+    .slide {
+      width: 33.33%;
+    }
+  }
+  .scroll-x {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .scroll-x ion-col {
+    display: inline-block;
+    width: 50%; /* adjust the width to fit your needs */
+  }
+  .slide {
+    display: inline-block;
+    width: 33.33%; /* adjust this to set the width of each slide */
+    margin: 0 10px; /* adjust this to set the margin between slides */
+  }
+  .s{
+      margin-top: -5px;
+  }
+  ion-col[size-xs="12"] {
+    margin-top: -32px;
+  }
+  ion-content {
+     /* adjust the height to your needs */
+  }
+
+  @media (min-width: 576px) {
+    ion-col[size-xs="12"] {
+      margin-top: 0;
+    }
+  }
+ 
+  ion-item{
+    width: 94%;
+    margin-left: 3%;
+  
+  }
+  ion-card-content img {
+    width: 150px; /* default width */
+    height: 122px;
+    float: right;
+  }
+  .admin{
+    width: 150px; /* default width */
+    height: 122px;
+    float: right;
+  }
+  @media (max-width: 768px) {
+    ion-card-content img {
+      width: 87px; /* smaller width for smaller screens */
+      height: auto;
+    }
+    @media (max-width: 768px) {
+     .admin{
+        width: 87px; /* smaller width for smaller screens */
+        height: auto;
+      }
+
+  }
+  @media (min-width: 768px) {
+    ion-label {
+      --ion-font-size: 1.5rem; /* adjust the font size as needed */
+    }
+  }
+  ion-label {
+    --ion-font-size: 1.5rem; /* adjust the font size as needed */
+  }
+
+}

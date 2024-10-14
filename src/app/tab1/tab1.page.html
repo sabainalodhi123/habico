@@ -1,0 +1,362 @@
+<ion-menu contentId="main-content"></ion-menu>
+<div class="ion-page" id="main-content">
+  <div *ngIf="!isAdmin" class="center-image">
+    <p style="    font-size: larger;
+    font-weight: 600;">You're Not Admin</p>
+    <img  src="assets/l.png">
+  </div>
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  
+  <ion-content *ngIf="isAdmin">
+    <ion-spinner *ngIf="loadingLeads">
+      <p>Loading leads...</p>
+    </ion-spinner>
+    <ion-segment mode="ios" [(ngModel)]="select" scrollable value="heart"> <ion-segment-button style="font-size: 10px; bottom: 9px; font-size: 10px; --padding-start: 0px !important;--padding-end: 0px !important; " value="surah"> <ion-label style=" margin-top: 11px !important; margin-bottom: 0px !important;">Ad Acc 1</ion-label> </ion-segment-button> <ion-segment-button style="font-size: 10px; bottom: 9px; font-size: 10px; --padding-start: 0px !important;--padding-end: 0px !important; " value="heart"> <ion-label style=" margin-top: 11px !important; margin-bottom: 0px !important;">Ad Acc 2</ion-label> </ion-segment-button> </ion-segment>
+    
+    
+    <div *ngIf="select == 'surah'">
+      <div>
+      <ion-button fill="clear" slot="end"  (click)="showSearchBar = !showSearchBar">
+        <ion-icon name="filter"></ion-icon>
+        Filter
+      </ion-button>
+    </div>
+      <ion-searchbar *ngIf="showSearchBar" show-cancel-button="focus" animated="true" mode="ios" [(ngModel)]="searchQuery" placeholder="Search" debounce="500" (ionCancel)="clearSearchQuery()">
+        <ion-button fill="clear" style="height: 32px;" size="small" slot="start" (click)="filterLeads(searchQuery)">
+          <ion-icon name="search"></ion-icon>
+        </ion-button>
+      </ion-searchbar>
+      <ion-list *ngIf="filteredData.length > 0">
+        <ion-item mode="ios" *ngFor="let lead of filteredData;let i = index">
+          <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+            <img src="assets/logo.png">
+          </ion-avatar>
+          <ion-label (click)="showLeadData(lead)">
+            <div *ngFor="let field of lead?.field_data">
+              <p *ngIf="field.name === 'full_name'" style="font-weight: bold; color: black;">{{ field.values[0] }}</p>
+            </div>
+            <p style="font-size: smaller;">{{ lead.platform }} Lead via Habico Properties Dubai</p>
+            <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ lead.campaign_name }}</p>
+            <p style="font-size: smaller;margin-top: -5px;">{{ lead.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+          </ion-label>
+          <ion-icon name="share-social" (click)="toggleUserList(i);storeLeadIndexData(i, lead)" style="font-size: 24px"></ion-icon>
+          <div style="
+          font-weight: 600;" *ngIf="userListsOpen[i]">
+          <ion-select mode="ios" [(ngModel)]="selectedUser" (ionChange)="updateSelectedUser($event,  lead)">
+            <ion-select-option *ngFor="let user of users" [value]="user.id">{{ user?.firstName }}</ion-select-option>
+          </ion-select></div>
+        </ion-item>
+      </ion-list>
+      
+      <ion-list *ngIf="leads && filteredData.length === 0 && !loading">
+        <ion-item mode="ios" *ngFor="let lead of leads;let i = index">
+          <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+            <img src="assets/logo.png">
+          </ion-avatar>
+          <ion-label (click)="showLeadData(lead)">
+            <div *ngFor="let field of lead.field_data">
+              <p *ngIf="field.name === 'full_name'" style="font-weight: bold; color: black;">{{ field.values[0] }}</p>
+            </div>
+            <p style="font-size: smaller;">{{ lead.platform }} Lead via Habico Properties Dubai</p>
+            <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ lead.campaign_name }}</p>
+            <p style="font-size: smaller;margin-top: -5px;">{{ lead.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+          </ion-label>
+          <ion-icon name="share-social" (click)="toggleUserList(i);storeLeadIndexData(i, lead)" style="font-size: 24px"></ion-icon>
+          <div style="
+          font-weight: 600;" *ngIf="userListsOpen[i]">
+          <ion-select mode="ios" [(ngModel)]="selectedUser" (ionChange)="updateSelectedUser($event,  lead)">
+            <ion-select-option *ngFor="let user of users" [value]="user.id">{{ user?.firstName }}</ion-select-option>
+          </ion-select></div>
+        </ion-item>
+      </ion-list>
+      <ion-modal mode="ios" [isOpen]="showLeadModal" (onWillDismiss)="showLeadModal = false">
+        <div *ngIf="selectedLead">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Lead Data</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="showLeadModal = false">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content fullscreen>
+
+            <ion-list class="ion-no-border">
+              
+              <ion-grid style="margin-left: 13px;">
+                <ion-row>
+                  <ion-col size="12">
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -5px;">Lead Source: {{ selectedLead.platform }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Page: Habico Properties Dubai</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Campaign: {{ selectedLead.campaign_name }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Adset: {{ selectedLead.adset_name }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Ad: {{ selectedLead.ad_name }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              
+            </ion-list>
+            <ion-card>
+              <div class="data" *ngFor="let field of selectedLead.field_data">
+                
+                <span style="font-weight: bold;margin-top: 30px;" *ngIf="field.name === 'email'">Email:
+                  <a href="mailto:{{field.values[0] }}">{{ field.values[0] }}</a>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'phone_number'">Phone Number:
+                  <a href="tel:{{field.values[0] }}">{{ field.values[0] }}</a>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'full_name'">Full Name:
+                  <span style="font-weight: 200;">{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'company_name'">Company Name:
+                  <span style="font-weight: 200;">{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'job_title'">Job Title:
+                  <span style="font-weight: 200;" >{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: 200;" *ngIf="field.name !== 'email' && field.name !== 'phone_number' && field.name !== 'company_name' && field.name !== 'job_title' && field.name !== 'full_name'">
+                  <span style="font-weight: bold;">{{field.name}}:</span>
+                  <br>
+                  {{ field.values[0] }}
+                </span>
+                
+              </div>
+            </ion-card>
+            <ion-card>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Note'}" (click)="selectActivity('Note')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Note</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Email'}" (click)="selectActivity('Email')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Email</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Text'}" (click)="selectActivity('Text')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Text</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Call Log'}" (click)="selectActivity('Call Log')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Call Log</p>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-textarea [(ngModel)]="newActivity" placeholder="Enter activity text"></ion-textarea>
+                    <ion-button style=" --background: blue;" shape="round" size="small" (click)="addActivity(selectedLead, newActivity, selectedActivity)" >{{ selectedActivity }}</ion-button>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="activities[selectedLead.created_time]">
+                  <ion-col size="12">
+                    <h5>Activity Log</h5>
+                    <div class="activity-log-container">
+                      <div *ngFor="let activity of activities[selectedLead.created_time].reverse(); let i = index; let isFirst = first" class="activity-log-item">
+                        <div class="activity-log-divider-vertical"></div>
+                        <div class="activity-log-content-container">
+                          <div class="round-icon" style="background-color: blue; color: #ffffff;">
+                            <ion-icon [name]="getIcon(activity.type)" style="color: #ffffff;"></ion-icon>
+                          </div>
+                          <div class="activity-log-content">
+                            {{ activity.date }}: {{ activity.type }} - {{ activity.text }}
+                          </div>
+                        </div>
+                       
+                      </div>
+                      <div class="round-icon" style="background-color: blue; color: #ffffff; position: absolute; left: 7px;bottom: -30px;">
+                        <ion-icon name="add" style="color: #ffffff;"></ion-icon>
+                      </div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card>
+          </ion-content>
+        </div>
+      </ion-modal>
+      <ion-modal [isOpen]="isModalOpen" (willDismiss)="isModalOpen = false">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Users</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let user of users">
+              <ion-label>
+                {{ user?.firstName }} ({{ user?.email }})
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ion-modal>
+      
+    </div>
+    
+    <div *ngIf="select == 'heart'">
+      <div>
+        <ion-button fill="clear" slot="end"  (click)="showSearchBa = !showSearchBa">
+          <ion-icon name="filter"></ion-icon>
+          Filter
+        </ion-button>
+      </div>
+        <ion-searchbar *ngIf="showSearchBa" show-cancel-button="focus" animated="true" mode="ios" [(ngModel)]="searchQuer" placeholder="Search" debounce="500" (ionCancel)="clearSearchQuer()">
+          <ion-button fill="clear" style="height: 32px;" size="small" slot="start" (click)="filterLead(searchQuer)">
+            <ion-icon name="search"></ion-icon>
+          </ion-button>
+        </ion-searchbar>
+      <ion-list *ngIf="filteredData2.length > 0">
+        <ion-item mode="ios" *ngFor="let lead of filteredData2;let i = index">
+          <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+            <img src="assets/logo.png">
+          </ion-avatar>
+          <ion-label (click)="showLeadData(lead)">
+            <div *ngFor="let field of lead?.field_data">
+              <p *ngIf="field.name === 'full name'" style="font-weight: bold; color: black;">{{ field.values[0] }}</p>
+            </div>
+            <p style="font-size: smaller;">{{ lead.platform }} Lead via Habico Properties Dubai</p>
+            <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ lead.campaign_name }}</p>
+            <p style="font-size: smaller;margin-top: -5px;">{{ lead.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+          </ion-label>
+          <ion-icon name="share-social" (click)="toggleUserList(i);storeLeadIndexData(i, lead)" style="font-size: 24px"></ion-icon>
+          <div style="
+          font-weight: 600;" *ngIf="userListsOpen[i]">
+          <ion-select mode="ios" [(ngModel)]="selectedUser" (ionChange)="updateSelectedUser($event,  lead)">
+            <ion-select-option *ngFor="let user of users" [value]="user.id">{{ user?.firstName }}</ion-select-option>
+          </ion-select></div>
+        </ion-item>
+      </ion-list>
+      
+ 
+      <ion-list *ngIf="lead2 && filteredData2.length === 0">
+        <ion-item mode="ios" *ngFor="let lead of lead2;let i = index">
+          <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+            <img src="assets/logo.png">
+          </ion-avatar>
+          <ion-label (click)="showLeadData(lead)">
+            <div *ngFor="let field of lead?.field_data">
+              <p *ngIf="field.name === 'full name'" style="font-weight: bold; color: black;">{{ field.values[0] }}</p>
+            </div>
+            <p style="font-size: smaller;">{{ lead.platform }} Lead via Habico Properties Dubai</p>
+            <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ lead.campaign_name }}</p>
+            <p style="font-size: smaller;margin-top: -5px;">{{ lead.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+          </ion-label>
+          <ion-icon name="share-social" (click)="toggleUserList(i);storeLeadIndexData(i, lead)" style="font-size: 24px"></ion-icon>
+          <div style="
+          font-weight: 600;" *ngIf="userListsOpen[i]">
+          <ion-select mode="ios" [(ngModel)]="selectedUser" (ionChange)="updateSelectedUser($event,  lead)">
+            <ion-select-option *ngFor="let user of users" [value]="user.id">{{ user?.firstName }}</ion-select-option>
+          </ion-select></div>
+        </ion-item>
+      </ion-list>
+      <ion-modal mode="ios" [isOpen]="showLeadModal" (onWillDismiss)="showLeadModal = false">
+        <div *ngIf="selectedLead">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Lead Data</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="showLeadModal = false">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content fullscreen>
+            <ion-list class="ion-no-border">
+              
+              <ion-grid style="margin-left: 13px;">
+                <ion-row>
+                  <ion-col size="12">
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -5px;">Lead Source: {{ selectedLead.platform }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Page: Habico Properties Dubai</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Campaign: {{ selectedLead.campaign_name }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Adset: {{ selectedLead.adset_name }}</p>
+                    <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Ad: {{ selectedLead.ad_name }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              
+            </ion-list>
+            <ion-card>
+              <div class="data" *ngFor="let field of selectedLead.field_data">
+                
+                <span style="font-weight: bold;margin-top: 30px;" *ngIf="field.name === 'email'">Email:
+                  <a href="mailto:{{field.values[0] }}">{{ field.values[0] }}</a>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'phone_number'">Phone Number:
+                  <a href="tel:{{field.values[0] }}">{{ field.values[0] }}</a>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'full name'">Full Name:
+                  <span style="font-weight: 200;">{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'company_name'">Company Name:
+                  <span style="font-weight: 200;">{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: bold;" *ngIf="field.name === 'job_title'">Job Title:
+                  <span style="font-weight: 200;" >{{ field.values[0] }}</span>
+                </span>
+                <span style="font-weight: 200;" *ngIf="field.name !== 'email' && field.name !== 'phone_number' && field.name !== 'company_name' && field.name !== 'job_title' && field.name !== 'full name'">
+                  <span style="font-weight: bold;">{{field.name}}</span>
+                  <br>
+                  {{ field.values[0] }}
+                </span>
+                
+              </div>
+            </ion-card>
+            <ion-card>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Note'}" (click)="selectActivity('Note')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Note</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Email'}" (click)="selectActivity('Email')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Email</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Text'}" (click)="selectActivity('Text')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Text</p>
+                  </ion-col>
+                  <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Call Log'}" (click)="selectActivity('Call Log')">
+                    <p style="font-size: 14px; margin: 0;text-align: center;">Call Log</p>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-textarea [(ngModel)]="newActivity" placeholder="Enter activity text"></ion-textarea>
+                    <ion-button shape="round" size="small" style=" --background: blue;" (click)="addActivity(selectedLead, newActivity, selectedActivity)" >{{ selectedActivity }}</ion-button>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="activities[selectedLead.created_time]">
+                  <ion-col size="12">
+                    <h5>Activity Log</h5>
+                    <div class="activity-log-container">
+                      <div *ngFor="let activity of activities[selectedLead.created_time].reverse(); let i = index; let isFirst = first" class="activity-log-item">
+                        <div class="activity-log-divider-vertical"></div>
+                        <div class="activity-log-content-container">
+                          <div class="round-icon" style="background-color: blue; color: #ffffff;">
+                            <ion-icon [name]="getIcon(activity.type)" style="color: #ffffff;"></ion-icon>
+                          </div>
+                          <div class="activity-log-content">
+                            {{ activity.date }}: {{ activity.type }} - {{ activity.text }}
+                          </div>
+                        </div>
+                       
+                      </div>
+                      <div class="round-icon" style="background-color: blue; color: #ffffff; position: absolute; left: 7px;bottom: -30px;">
+                        <ion-icon name="add" style="color: #ffffff;"></ion-icon>
+                      </div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card>
+          </ion-content>
+        </div>
+      </ion-modal>
+    </div>
+  </ion-content>
+</div>
+
+
+

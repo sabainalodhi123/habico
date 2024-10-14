@@ -1,0 +1,197 @@
+<ion-menu inert contentId="main-content">
+
+</ion-menu>
+<div class="ion-page" id="main-content">
+
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button style="color: black;"></ion-menu-button>
+      </ion-buttons>
+   
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="7">
+          <p>Hello, {{ firstName }}!</p>
+        </ion-col>
+        <ion-col size="5" style="text-align: right;">
+          <h5 style="font-size: small;color: black;">{{ firstName }}</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="5">
+          <h4>Here's your overview of your business!</h4>
+        </ion-col>
+        <ion-col size="7" style="text-align: right;">
+          <h5 style="font-size: small;color: black;margin-top: -21px;">{{ email }}</h5>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid *ngIf="isAdmin">
+      <ion-row>
+        <ion-col size-md="2.4" size-xs="12" >
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Total Leads Ad_Acc: 1</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ totalLeads | async }}</ion-label>
+              <img class="admin" src="assets/1.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="2.4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Total Leads Ad_Acc: 2</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ totalLead | async }}</ion-label>
+              <img class="admin" src="assets/all.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="2.4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Total Leads Assigned</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ adminLeadIndexesLength }}</ion-label>
+              <img class="admin" src="assets/work.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="2.4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Overdue Follow-ups</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ overdueFollowUps.length }}</ion-label>
+              <img class="admin" src="assets/overdue.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="2.4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Upcoming Follow-ups</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ upcomingFollowUps.length }}</ion-label>
+              <img class="admin" src="assets/upcoming.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid *ngIf="!isAdmin">
+      <ion-row>
+        <ion-col size-md="4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Total Leads Assigned</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ leadIndexesLength | async }}</ion-label>
+              <img src="assets/all.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Upcoming Follow-ups</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ upcomingFollowUps.length }}</ion-label>
+              <img src="assets/upcoming.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size-md="4" size-xs="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Overdue   Follow-ups</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label>{{ overdueFollowUps.length }}</ion-label>
+              <img src="assets/overdue.png">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+<div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="10.5" size-xs="9.5" >
+        <h5 style="margin-left: 30px;">Overdue  Follow-ups</h5>
+      </ion-col>
+      <ion-col style="margin-top: 15px;" size-md="0.5" size-xs="1.5">
+        <ion-label>{{ overdueFollowUps.length }}</ion-label>
+      </ion-col>
+      <ion-col size-md="1" size-xs="1">
+        <ion-icon style="font-size: larger;margin-top: 17px;margin-left: -26px;" name="chevron-down" (click)="toggleOverdueFollowUps()"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+<div *ngIf="overdueFollowUps.length > 0 && showOverdueFollowUps">
+  <ion-item  class="ion-no-border" *ngFor="let followUp of overdueFollowUps; let i = index">
+    <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+      <img src="assets/logo.png">
+    </ion-avatar>
+    <ion-label>
+      <p style="font-weight: bold; color: black;font-size: medium;">{{ followUp.leadAssignBy }}</p>
+      <p style="font-size: smaller;margin-top: -9;"  class="s">Follow-up: {{ followUp.fullname }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Lead Source: {{ followUp.leadSource }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Campaign Name: {{ followUp.campaignName }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Created Time: {{ followUp.createdTime | date: 'MM/dd/yyyy hh:mm a' }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Time Left: {{ followUp.timeLeft }}</p>
+    </ion-label>
+    <ion-checkbox mode="ios" slot="end" (ionChange)="deleteFollowUp(i)" [checked]="followUp.completed"></ion-checkbox>
+  </ion-item>
+</div>
+<!-- Upcoming Follow-ups -->
+<div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="10.5" size-xs="9.5" >
+        <h5 style="margin-left: 30px;">UpComing Follow-ups</h5>
+      </ion-col>
+      <ion-col style="margin-top: 15px;" size-md="0.5" size-xs="1.5">
+        <ion-label >{{ upcomingFollowUps.length }}</ion-label>
+      </ion-col>
+      <ion-col size-md="1" size-xs="1">
+        <ion-icon style="font-size: larger;margin-top: 17px;margin-left: -26px;" name="chevron-down" (click)="toggleUpcomingFollowUps()"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+<!-- Upcoming Follow-ups -->
+<!-- Upcoming Follow-ups -->
+<div *ngIf="upcomingFollowUps.length > 0 && showUpcomingFollowUps">
+  <ion-item size-md="4" size-xs="12" class="ion-no-border" *ngFor="let followUp of upcomingFollowUps; let i = index">
+    <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+      <img src="assets/logo.png">
+    </ion-avatar>
+    <ion-label>
+      <p style="font-weight: bold; color: black;font-size: medium;">{{ followUp.leadAssignBy }}</p>
+      <p style="font-size: smaller;margin-top: -9;"  class="s">Follow-up: {{ followUp.fullname }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Lead Source: {{ followUp.leadSource }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Campaign Name: {{ followUp.campaignName }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Created Time: {{ followUp.createdTime | date: 'MM/dd/yyyy hh:mm a' }}</p>
+      <p style="font-size: smaller;margin-top: -9;">Time Left: {{ followUp.timeLeft }}</p>
+    </ion-label>
+  </ion-item>
+</div>
+
+  </ion-content>
+</div>

@@ -1,0 +1,143 @@
+ion-card {
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 22px;
+  }
+  ion-toolbar {
+   
+    --color: #ffffff;
+  }  
+  .i{
+    --background: blue;
+  }
+  ion-fab {
+    ion-fab-button {
+      --background: blue;
+        ion-icon {
+            font-size: 2rem;
+        }
+    }
+}
+
+ion-menu {
+  --width: 250px;
+}
+
+ion-header {
+  background-color: #f7f7f7;
+}
+.center-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.center-image p {
+  flex-grow: 1; /* Add this line to make the paragraph take up the remaining space */
+}
+
+.center-image img {
+  max-width: 100%;
+  height: auto;
+  margin-top: auto; /* Add this line to push the image to the bottom */
+  margin-bottom: 0; /* Add this line to remove the default margin */
+}
+
+/* Media queries for responsiveness */
+@media only screen and (max-width: 768px) {
+  .center-image {
+    flex-direction: row;
+  }
+  .center-image img {
+    width: 50%;
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .center-image {
+    flex-direction: column;
+  }
+  .center-image img {
+    width: 100%;
+    height: auto;
+    margin-top: auto; /* Add this line to push the image to the bottom in mobile view */
+  }
+  .center-image p {
+    /* Remove flex-grow: 1, it's not needed here */
+    margin-top: 325px;
+  }
+}
+ion-toolbar {
+  --background-color: #f7f7f7;
+  
+}
+
+ion-menu-button {
+  color: #337ab7;
+}
+
+ion-content {
+  --background-color: #f7f7f7;
+}
+
+ion-list {
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+}
+
+ion-item {
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+ion-item:last-child {
+  border-bottom: none;
+}
+
+ion-avatar {
+  margin-right: 10px;
+}
+
+ion-label {
+  font-size: 16px;
+  color: #333;
+}
+
+ion-icon {
+  font-size: 24px;
+  color: #337ab7;
+}
+
+ion-icon:hover {
+  color: #23527c;
+}
+
+ion-item ion-icon {
+  margin-left: 10px;
+}
+
+ion-item ion-label p {
+  margin-bottom: 5px;
+}
+
+ion-item ion-label p a {
+  text-decoration: none;
+  color: #337ab7;
+}
+
+ion-item ion-label p a:hover {
+  color: #23527c;
+}
+
+.no-contacts {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}

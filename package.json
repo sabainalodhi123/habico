@@ -1,0 +1,202 @@
+{
+  "name": "CRM",
+  "version": "0.0.1",
+  "author": "Ionic Framework",
+  "homepage": "https://ionicframework.com/",
+  "main": "src/electron.js",
+  "scripts": {
+    "ng": "ng",
+    "start": "electron .",
+    "build": "electron-builder build --config electron-builder.yml",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "ng lint",
+    "dist": "electron-builder",
+    "rebuild": "electron-rebuild",
+    "dev": "concurrently \"electron .\" \"cd src && npm start\"",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "electron": "electron ./src/electron.dev",
+    "electron-serve": "ng build --prod && electron .",
+    "windows-release": "electron-packager . Habico-Properties --overwrite --asar=true --platform=win32 --arch=ia32 --icon=src/assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron Tutorial App'",
+    "windows-build": "node src/electron.js",
+    "electron:mac": "electron-packager ./electron SimonsApp --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "electron:win": "electron-packager ./electron HabicoProperties --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='HabicoProperties' --copy=./resources --asar.unpack=true",
+    "electron:win64": "electron-packager ./electron Habico-Properties --overwrite --platform=win32 --arch=x64 --icon=src/assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron Tutorial App'"
+  },
+  "build": {
+    "appId": "com.server.app",
+    "copyright": "Copyright company name",
+    "generateUpdatesFilesForAllChannels": true,
+    "win": {
+      "target": "nsis",
+      "verifyUpdateCodeSignature": false,
+      "publish": {
+        "provider": "generic",
+        "url": "http://xx.xx.xx.xx:port/update/win64",
+        "useMultipleRangeRequest": false
+      }
+    },
+    "mac": {
+      "target": "dmg",
+      "artifactName": "appName.dmg",
+      "icon": "assets/icon.ico"
+    },
+    "license": "MIT",
+    "dmg": {
+      "background": "build/i-bg.tif",
+      "icon": "assets/icon.ico",
+      "iconSize": 80,
+      "title": "${productName}-${version}",
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/setup.ico",
+      "uninstallerIcon": "build/setup.ico",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "AppName",
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://my-update-server/path"
+        }
+      ]
+    },
+    "extraFiles": [
+      "data",
+      "templates"
+    ]
+  },
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "https://my-update-server/path"
+    }
+  ],
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-s3",
+          "platforms": [
+            "darwin",
+            "linux"
+          ],
+          "config": {
+            "bucket": "my-bucket",
+            "folder": "my/key/prefix"
+          }
+        }
+      ]
+    }
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/fire": "^18.0.1",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "@capacitor-community/electron": "^5.0.1",
+    "@capacitor/android": "6.1.2",
+    "@capacitor/app": "6.0.1",
+    "@capacitor/core": "6.1.2",
+    "@capacitor/haptics": "6.0.1",
+    "@capacitor/ios": "6.1.2",
+    "@capacitor/keyboard": "6.0.2",
+    "@capacitor/local-notifications": "^6.1.0",
+    "@capacitor/push-notifications": "^6.0.2",
+    "@capacitor/splash-screen": "^6.0.2",
+    "@capacitor/status-bar": "6.0.1",
+    "@ionic-native/core": "^5.36.0",
+    "@ionic-native/facebook": "^5.36.0",
+    "@ionic-native/insomnia": "^5.36.0",
+    "@ionic-native/screen-orientation": "^5.36.0",
+    "@ionic/angular": "^8.0.0",
+    "cordova-plugin-badge": "^0.8.9",
+    "cordova-plugin-device": "^3.0.0",
+    "facebook-js-sdk": "^0.3.4",
+    "firebase": "^9.6.11",
+    "ionicons": "^7.0.0",
+    "ngx-countdown": "^18.0.0",
+    "ngx-facebook": "^3.0.0-0",
+    "onesignal-cordova-plugin": "^5.2.5",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular-eslint/builder": "^18.0.0",
+    "@angular-eslint/eslint-plugin": "^18.0.0",
+    "@angular-eslint/eslint-plugin-template": "^18.0.0",
+    "@angular-eslint/schematics": "^18.0.0",
+    "@angular-eslint/template-parser": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/language-service": "^18.0.0",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "6.1.2",
+    "@ionic/angular-toolkit": "^11.0.1",
+    "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^9.0.1",
+    "electron": "^32.1.2",
+    "electron-builder": "^25.0.5",
+    "electron-packager": "^17.1.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsdoc": "^48.2.1",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "jasmine-core": "~5.1.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.0"
+  },
+  "description": "An Ionic project"
+}

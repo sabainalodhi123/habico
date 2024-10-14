@@ -1,0 +1,22 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="crmData.length > 0">
+    <ion-item mode="ios" *ngFor="let item of crmData;let i = index">
+      <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+        <img src="assets/logo.png">
+      </ion-avatar>
+      <ion-label>
+        <p style="font-weight: bold; color: black;">{{ item.Name }}</p>
+        <p>Phone: {{ item.Phone }}</p>
+        <p *ngIf="item.Email">Email: {{ item.Email }}</p>
+        <p>Project URL: <a href="{{ item['Project URL'] }}" target="_blank">{{ item['Project URL'] }}</a></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

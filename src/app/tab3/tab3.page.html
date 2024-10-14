@@ -1,0 +1,237 @@
+<ion-menu contentId="main-content"></ion-menu>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: black;"></ion-menu-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-button *ngIf="!isAdmin" fill="clear" (click)="showSearchBar = !showSearchBar">
+    <ion-icon name="filter"></ion-icon>
+    Filter
+  </ion-button>
+  
+  <ion-searchbar *ngIf="showSearchBar && !isAdmin" show-cancel-button="focus" animated="true" mode="ios" [(ngModel)]="searchTerm" placeholder="Search" debounce="500" (ionCancel)="clearSearchQuery()" (ionInput)="searchLeadIndexData(searchTerm)">
+    <ion-button fill="clear" style="height: 32px;" size="small" slot="start" (click)="searchLeadIndexData(searchTerm)">
+      <ion-icon name="search"></ion-icon>
+    </ion-button>
+  </ion-searchbar>
+  
+  <ion-button *ngIf="isAdmin" fill="clear" (click)="showSearchBar = !showSearchBar">
+    <ion-icon name="filter"></ion-icon>
+    Filter
+  </ion-button>
+  
+  <ion-searchbar *ngIf="showSearchBar && isAdmin" show-cancel-button="focus" animated="true" mode="ios" [(ngModel)]="searchTerm" placeholder="Search" debounce="500" (ionCancel)="clearSearchQuery()" (ionInput)="searchLeadIndexDat(searchTerm)">
+  </ion-searchbar>
+  <ion-list *ngIf="searchResults.length > 0">
+    <ion-item mode="ios" *ngFor="let searchResult of searchResults;let i = index">
+      <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+        <img src="assets/logo.png">
+      </ion-avatar>
+      <ion-label (click)="showLeadData(searchResult)">
+        <p style="color: black;font-size: medium;">Lead Assign By: {{ searchResult.leadAssignBy }}</p>
+        <div *ngFor="let field of searchResult.leadProperties.field_data">
+          <p style="font-size: smaller;color: darkgrey;" *ngIf="field.name === 'full_name' || field.name === 'full name'">{{ field.values[0] }}</p>
+        </div>
+        <p style="font-size: smaller;margin-top: -5px;">{{ searchResult.leadProperties.platform }} Lead via Habico Properties Dubai</p>
+        <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ searchResult.leadProperties.campaign_name }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">{{ searchResult.leadProperties.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+      </ion-label>
+      <ion-icon name="push-outline" (click)="openFollowUpSelect(searchResult)"></ion-icon>
+  
+      <ion-list *ngIf="showFollowUpSelect">
+        <ion-item>
+          <ion-select [(ngModel)]="selectedFollowUps[searchResult.leadId]" interface="action-sheet" (ionChange)="saveFollowUp(searchResult)">
+            <ion-select-option *ngFor="let option of followUpOptions" [value]="option">{{ option }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="!isAdmin && leadIndexes && searchResults.length === 0">
+    <ion-item mode="ios" *ngFor="let leadIndex of leadIndexes;let i = index; trackBy: trackLeadIndex">
+      <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+        <img src="assets/logo.png">
+      </ion-avatar>
+      <ion-label style="margin-left: -20px;" (click)="showLeadData(leadIndex)">
+        <p style="color: black;font-size: medium;">Lead Assign By: Ahsan</p>
+        <div *ngFor="let field of leadIndex.leadProperties.field_data">
+          <p style="font-size: smaller;color: darkgrey;" *ngIf="field.name === 'full_name' || field.name === 'full name'">{{ field.values[0] }}</p>
+        </div>
+        <p style="font-size: smaller;margin-top: -5px;">{{ leadIndex.leadProperties.platform }} Lead via Habico Properties Dubai</p>
+        <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ leadIndex.leadProperties.campaign_name }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">{{ leadIndex.leadProperties.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+      </ion-label>
+      <ion-button color="success" size="small" fill="outline" *ngIf="leadIndex.status === 'Complete'">Completed</ion-button>
+      <ion-button color="danger" size="small" fill="outline" *ngIf="leadIndex.status === 'Uncontacted'">Uncontacted</ion-button>
+      <ion-icon *ngIf="!(leadIndex.status === 'Complete' || leadIndex.status === 'Uncontacted')" name="push-outline" (click)="openFollowUpSelect(leadIndex)"></ion-icon>
+      <ion-list *ngIf="showFollowUpSelect[leadIndex.leadId]">
+        <ion-item>
+          <ion-select [(ngModel)]="selectedFollowUps[leadIndex.leadId]" interface="action-sheet" (ionChange)="saveFollowUp(leadIndex)">
+            <ion-select-option *ngFor="let option of followUpOptions" [value]="option">{{ option }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="isAdmin && adminLeadIndexes && searchResults.length === 0">
+    <ion-item mode="ios" *ngFor="let leadIndex of adminLeadIndexes;let i = index; trackBy: trackLeadIndex">
+      <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+        <img src="assets/logo.png">
+      </ion-avatar>
+      <ion-label style="margin-left: -20px;" (click)="showLeadData(leadIndex)">
+        <p style="color: black;font-size: medium;">Lead Assign To: {{ leadIndex.leadId }}</p>
+        <div *ngFor="let field of leadIndex.leadProperties.field_data">
+          <p style="font-size: smaller;color: darkgrey;" *ngIf="field.name === 'full_name' || field.name === 'full name'">{{ field.values[0] }}</p>
+        </div>
+        <p style="font-size: smaller;">{{ leadIndex.leadProperties.platform }} Lead via Habico Properties Dubai</p>
+        <p style="font-size: smaller;margin-top: -5px;">Campaign Name: {{ leadIndex.leadProperties.campaign_name }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">{{ leadIndex.leadProperties.created_time | date: 'MM/dd/yyyy hh:mm a' }}</p>
+      </ion-label>
+      <ion-button color="success" size="small" fill="outline" *ngIf="leadIndex.status === 'Complete'">Completed</ion-button>
+<ion-button color="danger" size="small" fill="outline" *ngIf="leadIndex.status === 'Uncontacted'">Uncontacted</ion-button>
+      <ion-icon *ngIf="!(leadIndex.status === 'Complete' || leadIndex.status === 'Uncontacted')" name="push-outline" (click)="openFollowUpSelect(leadIndex)"></ion-icon>
+    
+      <ion-list *ngIf="showFollowUpSelect[leadIndex.leadId]">
+        <ion-item>
+          <ion-select [(ngModel)]="selectedFollowUps[leadIndex.leadId]" interface="action-sheet" (ionChange)="saveFollowUp(leadIndex)">
+            <ion-select-option *ngFor="let option of followUpOptions" [value]="option">{{ option }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+  <ion-modal mode="ios" [isOpen]="showLeadModal" (onWillDismiss)="showLeadModal = false">
+    <div *ngIf="selectedLead">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title style="color: black;">Lead Data</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showLeadModal = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content fullscreen>
+
+        <ion-list class="ion-no-border">
+         
+          <ion-grid style="margin-left: 13px;">
+            <ion-row>
+              <ion-col size="9">
+                <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -5px;">Lead Source: {{ selectedLead?.leadProperties?.platform }}</p>
+                <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Page: Habico Properties Dubai</p>
+                <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Campaign: {{ selectedLead?.leadProperties?.campaign_name }}</p>
+                <p style="font-size: smaller;font-weight: bold;color: black;margin-top: -10px;">Adset: {{ selectedLead?.leadProperties?.adset_name }}</p>
+               
+              </ion-col>
+          <ion-grid class="ion-text-center">
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-col>
+                <ion-button color="success" shape="round" size="small" [disabled]="selectedLead.status === 'Complete' || selectedLead.status === 'Uncontacted'" (click)="completeLead(selectedLead)">Complete</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button color="danger" shape="round" size="small" [disabled]="selectedLead.status === 'Complete' || selectedLead.status === 'Uncontacted'" (click)="uncontactLead(selectedLead)">Uncontact</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+            </ion-row>
+          </ion-grid>
+
+        </ion-list>
+        <ion-card>
+          <div *ngFor="let field of selectedLead?.leadProperties?.field_data">
+            <span style="font-weight: bold;margin-top: 30px;" *ngIf="field.name === 'email'">Email:
+              <a href="mailto:{{field.values[0] }}">{{ field.values[0] }}</a>
+            </span>
+            <span style="font-weight: bold;" *ngIf="field.name === 'phone_number'">Phone Number:
+              <a href="tel:{{field.values[0] }}">{{ field.values[0] }}</a>
+            </span>
+            <div *ngIf="field.name !== 'email' && field.name !== 'phone_number'">
+            <span style="font-weight: bold;">{{ field.name }}:</span>
+            <span style="font-weight: 200;">{{ field.values }}</span>
+          </div>
+          </div>
+        </ion-card>
+    
+        <ion-card>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label>Tags:</ion-label>
+                <ion-select [(ngModel)]="selectedTag" interface="action-sheet">
+                  <ion-select-option value="interested">Interested</ion-select-option>
+                  <ion-select-option value="not_interested">Not Interested</ion-select-option>
+                  <ion-select-option value="custom">Custom</ion-select-option>
+                </ion-select>
+                <ion-input *ngIf="selectedTag === 'custom'" [(ngModel)]="customTag" placeholder="Enter custom tag"></ion-input>
+                <ion-button style="--background: blue;" shape="round" size="small" (click)="selectTag(selectedTag)">Add Tag</ion-button>
+                <ion-button style="--background: blue;" shape="round" size="small" *ngIf="selectedTag === 'custom'" (click)="selectTag(customTag)">Add Custom Tag</ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label>Tags:</ion-label>
+                <ion-chip *ngFor="let tag of tags[selectedLead?.leadProperties?.created_time]">
+                  {{ tag.tag }}
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+        <ion-card>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Note'}" (click)="selectActivity('Note')">
+                <p style="font-size: 14px; margin: 0;text-align: center;">Note</p>
+              </ion-col>
+              <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Email'}" (click)="selectActivity('Email')">
+                <p style="font-size: 14px; margin: 0;text-align: center;">Email</p>
+              </ion-col>
+              <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Text'}" (click)="selectActivity('Text')">
+                <p style="font-size: 14px; margin: 0;text-align: center;">Text</p>
+              </ion-col>
+              <ion-col size="3" [ngClass]="{'selected': selectedActivity === 'Call Log'}" (click)="selectActivity('Call Log')">
+                <p style="font-size: 14px; margin: 0;text-align: center;">Call Log</p>
+              </ion-col>
+            </ion-row>
+            
+            <ion-row>
+              <ion-col size="12">
+                <ion-textarea [(ngModel)]="newActivity" placeholder="Enter activity text"></ion-textarea>
+                <ion-button style="--background: blue;" shape="round" size="small" (click)="addActivity(selectedLead, newActivity, selectedActivity)" >{{ selectedActivity }}</ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="activities[selectedLead?.leadProperties?.created_time]">
+              <ion-col size="12">
+                <h5>Activity Log</h5>
+                <div class="activity-log-container">
+                  <div *ngFor="let activity of activities[selectedLead?.leadProperties?.created_time].reverse(); let i = index; let isFirst = first" class="activity-log-item">
+                    <div class="activity-log-divider-vertical"></div>
+                    <div class="activity-log-content-container">
+                      <div class="round-icon" style="background-color: blue; color: #ffffff;">
+                        <ion-icon [name]="getIcon(activity.type)" style="color: #ffffff;"></ion-icon>
+                      </div>
+                      <div class="activity-log-content">
+                        {{ activity.date }}: {{ activity.type }} - {{ activity.text }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="round-icon" style="background-color: blue; color: #ffffff; position: absolute; left: 7px;bottom: -30px;">
+                    <ion-icon name="add" style="color: #ffffff;"></ion-icon>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-content>
+    </div>
+  </ion-modal>
+  
+
+</ion-content>

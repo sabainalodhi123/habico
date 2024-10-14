@@ -1,0 +1,40 @@
+<ion-menu contentId="main-content"></ion-menu>
+<div class="ion-page" id="main-content">
+<div *ngIf="userInfos.length === 0" class="center-image">
+  <p style="    font-size: larger;
+  font-weight: 600;">No Contacts</p>
+  <img src="assets/no.png">
+</div>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: black;"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-list *ngIf="userInfos.length > 0">
+    <ion-item mode="ios" *ngFor="let contact of userInfos;let i = index">
+      <ion-avatar mode="ios" slot="start" style="height: 61px;width: 61px;">
+        <img src="assets/logo.png">
+      </ion-avatar>
+      <ion-label>
+        <p style="font-weight: bold; color: black;">{{ contact.FirstName }} {{ contact.LastName }}</p>
+        <p style="font-size: smaller;"><a href="tel:{{ contact.MobileNumber }}">Mobile Number: {{ contact.MobileNumber }}</a></p>
+        <p style="font-size: smaller;margin-top: -5px;">Alternate Number: {{ contact.AltNumber }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">Description: {{ contact.Description }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">Designation: {{ contact.Designation }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">Address: {{ contact.Address }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">Email: {{ contact.Email }}</p>
+        <p style="font-size: smaller;margin-top: -5px;">Website: {{ contact.Website }}</p>
+      </ion-label>
+      <ion-icon name="trash" (click)="deleteUserInfo(contact)" style="font-size: 24px"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
+</div>
+
+
